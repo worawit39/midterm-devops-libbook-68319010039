@@ -1,6 +1,4 @@
-import pg from 'pg';
-
-const { Pool } = pg;
+const { Pool } = require('pg');
 
 const pool = new Pool({
   host: process.env.DB_HOST,
@@ -10,8 +8,8 @@ const pool = new Pool({
   port: process.env.DB_PORT || 5432,
 });
 
-// ฟังก์ชันจำลองการสร้าง Table อัตโนมัติถ้าไม่มีข้อมูลอยู่จริง (Persist Check)
-export const initDB = async () => {
+// สร้าง Table ถ้ายังไม่มี (ช่วยให้ทำงานง่ายขึ้นเมื่อรันครั้งแรก)
+const initDb = async () => {
   const queryText = `
     CREATE TABLE IF NOT EXISTS books (
       id SERIAL PRIMARY KEY,
@@ -20,10 +18,17 @@ export const initDB = async () => {
       author VARCHAR(255) NOT NULL,
       category VARCHAR(100) NOT NULL,
       year INTEGER NOT NULL,
-      status VARCHAR(50) NOT NULL
+      status VARCHAR(50) DEFAULT 'พร้อมให้ยืม'
     );
   `;
-  await pool.query(queryText);
+  try {
+    await pool.query(queryText);
+    console.log("Database table 'books' verified/created.");
+  } catch (err) {
+    console.error("Error creating table:", err);
+  }
 };
 
-export default pool;
+initDb();
+
+module.exports = pool;
