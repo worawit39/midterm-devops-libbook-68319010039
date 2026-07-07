@@ -14,7 +14,7 @@ services:
       - postgres_prod_data:/var/lib/postgresql/data
 
   backend:
-    image: yourdockerhubusername/libbook-api:latest
+    image: wolawit/libbook-api:latest
     container_name: libbook_api_prod
     ports:
       - "3001:3001" # แก้ไขจุดนี้เป็น 3001
@@ -28,7 +28,7 @@ services:
       - db
 
   frontend:
-    image: wolawit/libbook-web:latest
+    image: yourdockerhubusername/libbook-web:latest
     container_name: libbook_web_prod
     ports:
       - "8080:80"
