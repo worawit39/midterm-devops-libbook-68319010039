@@ -15,7 +15,8 @@ services:
     build: ./backend
     container_name: libbook_api
     ports:
-      - "3002:3001"   # ⬅️ ขยับหนีพอร์ตที่ชนไปใช้ 3002
+      - "3005:3005"  # ⬅️ เปลี่ยนเป็น 3005 ทั้งคู่
+
       
     environment:
       - DB_HOST=db

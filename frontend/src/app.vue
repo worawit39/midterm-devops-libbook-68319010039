@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
-const API_URL = 'http://localhost:3002/api/books'; // ⬅️ แก้เป็น 3002 ให้ตรงกัน
+const API_URL = 'http://localhost:3005/api/books'; // ⬅️ เปลี่ยนเป็น 3005
 const books = ref([]);
 const isEditing = ref(false);
 const currentBookId = ref(null);
