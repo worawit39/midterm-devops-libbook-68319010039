@@ -2,27 +2,101 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบบันทึกข้อมูลหนังสือห้องสมุด | libbook</title>
+    <title>ระบบบันทึกข้อมูลหนังสือห้องสมุด (libbook)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ตั้งค่าฟอนต์เริ่มต้นให้รองรับภาษาไทยสวยๆ */
-        body {
-            font-family: 'Sarabun', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-        }
+        body { font-family: 'Sarabun', sans-serif; margin: 0; padding: 20px; background-color: #f8f9fa; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        header { background: #e9ecef; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
+        .main-content { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+        @media (max-width: 768px) { .main-content { grid-template-columns: 1fr; } }
+        .form-section, .list-section { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .btn { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; color: white; }
+        .btn-success { background-color: #28a745; width: 100%; }
+        .btn-warning { background-color: #ffc107; color: black; }
+        .btn-danger { background-color: #dc3545; }
+        .btn-secondary { background-color: #6c757d; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f8f9fa; }
+        .badge { padding: 4px 8px; border-radius: 12px; font-size: 0.85em; font-weight: bold; }
+        .badge-available { background-color: #d4edda; color: #155724; }
+        .badge-borrowed { background-color: #fff3cd; color: #856404; }
+        .badge-damaged { background-color: #f8d7da; color: #721c24; }
     </style>
 </head>
 <body>
-    
-    <div id="app"></div>
+    <div class="container">
+        <header>
+            <h1>📚 ระบบบันทึกข้อมูลหนังสือห้องสมุด (libbook)</h1>
+            <p><strong>ผู้ทำ:</strong> นายวรวิทย์ รักเรียน | <strong>รหัสนักศึกษา:</strong> 68319010039</p>
+        </header>
 
-    <script type="module" src="/src/main.js"></script>
+        <div class="main-content">
+            <section class="form-section">
+                <h2 id="form-title">➕ เพิ่มหนังสือใหม่</h2>
+                <form id="book-form">
+                    <input type="hidden" id="book-id">
+                    <div class="form-group">
+                        <label>ISBN</label>
+                        <input type="text" id="isbn" required placeholder="เช่น 978-616-08-xxxx-x">
+                    </div>
+                    <div class="form-group">
+                        <label>ชื่อหนังสือ</label>
+                        <input type="text" id="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label>ผู้แต่ง</label>
+                        <input type="text" id="author" required>
+                    </div>
+                    <div class="form-group">
+                        <label>หมวดหมู่</label>
+                        <input type="text" id="category" required placeholder="เช่น เทคโนโลยี, นวนิยาย">
+                    </div>
+                    <div class="form-group">
+                        <label>ปีที่พิมพ์</label>
+                        <input type="number" id="year" required value="2026">
+                    </div>
+                    <div class="form-group">
+                        <label>สถานะ</label>
+                        <select id="status">
+                            <option value="พร้อมให้ยืม">พร้อมให้ยืม</option>
+                            <option value="ถูกยืม">ถูกยืม</option>
+                            <option value="ชำรุด">ชำรุด</option>
+                        </select>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <button type="submit" id="btn-submit" class="btn btn-success">บันทึก</button>
+                        <button type="button" id="btn-cancel" class="btn btn-secondary" style="display:none;">ยกเลิก</button>
+                    </div>
+                </form>
+            </section>
 
+            <section class="list-section">
+                <h2>📋 รายการหนังสือในระบบ</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ISBN</th>
+                            <th>ชื่อหนังสือ</th>
+                            <th>ผู้แต่ง</th>
+                            <th>สถานะ</th>
+                            <th>จัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="book-list">
+                        </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
