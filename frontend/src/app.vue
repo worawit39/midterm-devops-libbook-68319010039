@@ -90,7 +90,7 @@ onMounted(fetchBooks);
     <header>
       <h1>📚 ระบบบันทึกข้อมูลหนังสือห้องสมุด (libbook)</h1>
       <div class="developer-info">
-        <p><strong>ผู้ทำ:</strong> นายวรวิช รักเรียน | <strong>รหัสนักศึกษา:</strong> 68319010039</p>
+        <p><strong>ผู้ทำ:</strong> นายวรวิช จำปานิล | <strong>รหัสนักศึกษา:</strong> 68319010039</p>
       </div>
     </header>
 
