@@ -77,10 +77,6 @@ app.delete('/api/books/:id', async (req, res) => {
   }
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server is running smoothly on port ${PORT}`);
-});
-
 
 
 
