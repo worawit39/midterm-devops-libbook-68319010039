@@ -3,33 +3,37 @@ version: '3.8'
 services:
   db:
     image: postgres:15-alpine
+    container_name: libbook_db
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: libbook_secure_pass
+      POSTGRES_PASSWORD: mysecretpassword
       POSTGRES_DB: libbook_db
+    ports:
+      - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
 
   backend:
-    image: <YOUR_DOCKERHUB_USERNAME>/libbook-api:latest
+    build: ./backend
+    container_name: libbook_api
     ports:
-      - "3000:3000"
+      - "3001:3001" # แก้ไขจุดนี้เป็น 3001
     environment:
-      - PORT=3000
       - DB_HOST=db
       - DB_USER=postgres
-      - DB_PASSWORD=libbook_secure_pass
+      - DB_PASSWORD=mysecretpassword
       - DB_NAME=libbook_db
-      - DB_PORT=5432
+      - PORT=3001 # แก้ไขจุดนี้เป็น 3001
     depends_on:
       - db
 
   frontend:
-    image: <YOUR_DOCKERHUB_USERNAME>/libbook-web:latest
+    build: ./frontend
+    container_name: libbook_web
     ports:
       - "8080:80"
     depends_on:
       - backend
 
 volumes:
-  pgdata:
+  postgres_data:

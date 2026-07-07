@@ -1,0 +1,43 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "develop", "feature/*" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-size: 18
+      - name: Install dependencies
+        run: |
+          cd backend && npm install
+      # กรณีมี eslint ในโปรเจกต์ สามารถเปิดรันบรรทัดล่างได้ครับ
+      # - name: Run Lint
+      #   run: cd backend && npm run lint
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Tests
+        run: |
+          echo "Running Jest/Supertest..."
+          # เติมคำสั่งรัน test จริงของคุณตรงนี้ เช่น cd backend && npm test
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Backend Docker Image
+        run: docker build ./backend --file ./backend/Dockerfile
+      - name: Build Frontend Docker Image
+        run: docker build ./frontend --file ./frontend/Dockerfile
