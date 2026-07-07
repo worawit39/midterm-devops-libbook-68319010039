@@ -15,7 +15,8 @@ services:
     build: ./backend
     container_name: libbook_api
     ports:
-      - "3001:3001"
+      - "3002:3001"   # ⬅️ ขยับหนีพอร์ตที่ชนไปใช้ 3002
+      
     environment:
       - DB_HOST=db
       - DB_USER=postgres
