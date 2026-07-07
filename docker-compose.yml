@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: libbook_secure_pass
+      POSTGRES_DB: libbook_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    image: <YOUR_DOCKERHUB_USERNAME>/libbook-api:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - DB_HOST=db
+      - DB_USER=postgres
+      - DB_PASSWORD=libbook_secure_pass
+      - DB_NAME=libbook_db
+      - DB_PORT=5432
+    depends_on:
+      - db
+
+  frontend:
+    image: <YOUR_DOCKERHUB_USERNAME>/libbook-web:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
