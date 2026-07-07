@@ -28,7 +28,7 @@ services:
       - db
 
   frontend:
-    image: yourdockerhubusername/libbook-web:latest
+    image: wolawit/libbook-web:latest
     container_name: libbook_web_prod
     ports:
       - "8080:80"
